@@ -11,13 +11,13 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   int _currentIndex = 0;
+  final movieTabs = ["Discover", "Explore"];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        // TODO: Task 6
-        title: Text("Movies"),
+        title: Text("${movieTabs[_currentIndex]} movies"),
         centerTitle: true,
         actions: <Widget>[
           IconButton(
