@@ -17,7 +17,6 @@ class _MainPageState extends State<MainPage> {
     return Scaffold(
       appBar: AppBar(
         // TODO: Task 6
-        // TODO: Task 1
         title: Text("Movies"),
         centerTitle: true,
         actions: <Widget>[
