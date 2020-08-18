@@ -75,14 +75,18 @@ class MovieDetailsHeaderTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       movie.title,
-      style: Theme.of(context).textTheme.headline5.copyWith(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-            shadows: getTextShadow(
-              Colors.black,
-              0.2,
-            ),
-          ),
+      style: Theme
+          .of(context)
+          .textTheme
+          .headline5
+          .copyWith(
+        color: Colors.white,
+        fontWeight: FontWeight.bold,
+        shadows: getTextShadow(
+          Colors.black,
+          0.2,
+        ),
+      ),
     );
   }
 
@@ -90,15 +94,15 @@ class MovieDetailsHeaderTitle extends StatelessWidget {
   List<Shadow> getTextShadow(Color color, double d) {
     return [
       Shadow(
-          // bottomLeft
+        // bottomLeft
           offset: Offset(-d, -d),
           color: color),
       Shadow(
-          // bottomRight
+        // bottomRight
           offset: Offset(d, -d),
           color: color),
       Shadow(
-          // topRight
+        // topRight
           offset: Offset(d, d),
           color: color),
       Shadow(
@@ -119,13 +123,43 @@ class MovieDetailsInformation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO Task 8
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Center(
-        child: Text("TODO Task 8"),
-      ),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.all(14.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: EdgeInsets.all(2),
+                  child: Text("Genres: ${movie.genres.map((e) => e.name).fold(
+                      "", (value, element) => value + "$element  ")}"),
+                ),
+                Padding(
+                  padding: EdgeInsets.all(2),
+                  child: Text("Release date: ${movie.releaseDate}"),
+                ),
+              ],
+            ),
+          ),
+        ),
+        Icon(Icons.star),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(1, 0, 8, 0),
+          child: Text("${movie.voteAverage}"),
+        ),
+      ],
     );
+
+    //    // TODO Task 8
+//    return Padding(
+//      padding: const EdgeInsets.all(8.0),
+//      child: Center(
+//        child: Text("TODO Task 8"),
+//      ),
+//    );
   }
 }
 
@@ -168,11 +202,11 @@ class MovieActorsWidget extends StatelessWidget {
     // TODO: Task 9
     return SliverToBoxAdapter(
         child: Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Center(
-        child: Text("TODO 9"),
-      ),
-    ));
+          padding: const EdgeInsets.all(8.0),
+          child: Center(
+            child: Text("TODO 9"),
+          ),
+        ));
   }
 }
 
@@ -189,7 +223,10 @@ class MovieDetailsHeadline extends StatelessWidget {
       padding: EdgeInsets.only(left: 16, right: 16),
       child: Text(
         text,
-        style: Theme.of(context).textTheme.headline5,
+        style: Theme
+            .of(context)
+            .textTheme
+            .headline5,
       ),
     );
   }
@@ -214,7 +251,7 @@ class SimilarMoviesWidget extends StatelessWidget {
         } else if (snapshot.hasData) {
           return SliverList(
             delegate: SliverChildBuilderDelegate(
-              (context, index) {
+                  (context, index) {
                 final movie = snapshot.data[index];
 
                 return MoviesListViewCell(
