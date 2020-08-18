@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movies/api/movies_api_service.dart';
+import 'package:movies/models/actor.dart';
 import 'package:movies/models/movie.dart';
 
 import 'widgets/error_indicator.dart';
@@ -75,18 +76,14 @@ class MovieDetailsHeaderTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       movie.title,
-      style: Theme
-          .of(context)
-          .textTheme
-          .headline5
-          .copyWith(
-        color: Colors.white,
-        fontWeight: FontWeight.bold,
-        shadows: getTextShadow(
-          Colors.black,
-          0.2,
-        ),
-      ),
+      style: Theme.of(context).textTheme.headline5.copyWith(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            shadows: getTextShadow(
+              Colors.black,
+              0.2,
+            ),
+          ),
     );
   }
 
@@ -94,15 +91,15 @@ class MovieDetailsHeaderTitle extends StatelessWidget {
   List<Shadow> getTextShadow(Color color, double d) {
     return [
       Shadow(
-        // bottomLeft
+          // bottomLeft
           offset: Offset(-d, -d),
           color: color),
       Shadow(
-        // bottomRight
+          // bottomRight
           offset: Offset(d, -d),
           color: color),
       Shadow(
-        // topRight
+          // topRight
           offset: Offset(d, d),
           color: color),
       Shadow(
@@ -134,8 +131,8 @@ class MovieDetailsInformation extends StatelessWidget {
               children: [
                 Padding(
                   padding: EdgeInsets.all(2),
-                  child: Text("Genres: ${movie.genres.map((e) => e.name).fold(
-                      "", (value, element) => value + "$element  ")}"),
+                  child: Text(
+                      "Genres: ${movie.genres.map((e) => e.name).fold("", (value, element) => value + "$element  ")}"),
                 ),
                 Padding(
                   padding: EdgeInsets.all(2),
@@ -190,6 +187,35 @@ class MovieDetailsOverview extends StatelessWidget {
   }
 }
 
+class MovieActorCell extends StatelessWidget {
+  final Actor actor;
+
+  const MovieActorCell({Key key, @required this.actor})
+      : assert(actor != null),
+        super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Container(
+          child: (actor.profileUrl == null ? Image.asset("assets/person.jpg", fit: BoxFit.fitWidth) : Image.network(actor.profileUrl, fit: BoxFit.fitWidth)),
+          width: 100,
+          height: 100,
+        ),
+        Expanded(
+          child: Column(
+            children: [
+              Text(actor.name),
+              Text(actor.character),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
 class MovieActorsWidget extends StatelessWidget {
   final int movieId;
 
@@ -199,15 +225,49 @@ class MovieActorsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: Task 9
-    return SliverToBoxAdapter(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Center(
-            child: Text("TODO 9"),
-          ),
-        ));
+    return FutureBuilder(
+      future: MoviesApiService().getMovieActors(movieId),
+      builder: (BuildContext context, AsyncSnapshot<List<Actor>> snapshot) {
+        if (snapshot.hasError) {
+          return SliverToBoxAdapter(
+            child: ErrorIndicator(error: snapshot.error),
+          );
+        } else if (snapshot.hasData) {
+          return SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (context, index) {
+                final actor = snapshot.data[index];
+
+                return MovieActorCell(
+                  actor: actor,
+                );
+              },
+              childCount: snapshot.data.length,
+            ),
+          );
+        }
+        return SliverToBoxAdapter(
+          child: LoadingIndicator(),
+        );
+      },
+    );
   }
+
+//  const MovieActorsWidget({Key key, @required this.movieId})
+//      : assert(movieId != null),
+//        super(key: key);
+//
+//  @override
+//  Widget build(BuildContext context) {
+//    // TODO: Task 9
+//    return SliverToBoxAdapter(
+//        child: Padding(
+//          padding: const EdgeInsets.all(8.0),
+//          child: Center(
+//            child: Text("TODO 9"),
+//          ),
+//        ));
+//  }
 }
 
 class MovieDetailsHeadline extends StatelessWidget {
@@ -223,10 +283,7 @@ class MovieDetailsHeadline extends StatelessWidget {
       padding: EdgeInsets.only(left: 16, right: 16),
       child: Text(
         text,
-        style: Theme
-            .of(context)
-            .textTheme
-            .headline5,
+        style: Theme.of(context).textTheme.headline5,
       ),
     );
   }
@@ -251,7 +308,7 @@ class SimilarMoviesWidget extends StatelessWidget {
         } else if (snapshot.hasData) {
           return SliverList(
             delegate: SliverChildBuilderDelegate(
-                  (context, index) {
+              (context, index) {
                 final movie = snapshot.data[index];
 
                 return MoviesListViewCell(
