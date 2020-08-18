@@ -74,6 +74,12 @@ class MovieCoverImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (movie.backdropUrl == null){
+      return Container(
+        color: Colors.blue,
+      );
+    }
+
     return Container(
       child: Hero(
         tag: "movie${movie.id}",
@@ -82,7 +88,6 @@ class MovieCoverImage extends StatelessWidget {
           fit: BoxFit.fitHeight,
         ),
       ),
-      color: Colors.blue,
     );
   }
 }
