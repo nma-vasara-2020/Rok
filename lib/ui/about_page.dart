@@ -6,9 +6,16 @@ class AboutPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("About NMA"),
+        title: Center(
+          child: Container(
+            child: Image.asset("assets/nma-logo.png"),
+            height: 30,
+          ),
+        ),
       ),
-      body: Container(child: AboutPageBody()),
+      body: Container(
+        child: AboutPageBody(),
+      ),
     );
   }
 }
@@ -19,9 +26,23 @@ class AboutPageBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: Task 2
-    return Center(
-      child: Text("TODO: Task 2"),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Center(
+            child: Padding(
+              padding: const EdgeInsets.all(28.0),
+              child: Text(
+                "Nacionalinė moksleivių akademija (NMA) – unikali papildomo ugdymo institucija, skirta mokslui ir muzikai gabiems Lietuvos vaikams. Nuo 2004 m. NMA ugdymo programas yra baigę daugiau nei 1300 talentingiausių vaikų iš įvairių Lietuvos kampelių. Akademijoje stiprinamas Lietuvos intelektinis potencialas, investuojama į gabius ir motyvuotus vaikus. Nepriklausomai nuo gyvenamosios vietos, talentingiems mokiniams sudaromos sąlygos mokytis pas geriausius Lietuvos ir kitų šalių dėstytojus bei mokytojus.",
+                textAlign: TextAlign.center,
+              ),
+            ),
+        ),
+        RaisedButton(
+          child: Text("Mygtukas"),
+          onPressed: () => {},
+        ),
+      ],
     );
   }
 
