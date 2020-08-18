@@ -61,11 +61,7 @@ class MoviesListViewCell extends StatelessWidget {
   }
 
   _launchMovieDetailsScreen(BuildContext context) {
-    Navigator.pushNamed(
-      context,
-      Routes.ROUTE_MOVIE_DETAILS,
-      arguments: movie
-    );
+    Navigator.pushNamed(context, Routes.ROUTE_MOVIE_DETAILS, arguments: movie);
   }
 }
 
@@ -78,8 +74,16 @@ class MovieCoverImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: Task 4
-    return Container(color: Colors.blue);
+    return Container(
+      child: Hero(
+        tag: "movie${movie.id}",
+        child: Image.network(
+          movie.backdropUrl,
+          fit: BoxFit.fitHeight,
+        ),
+      ),
+      color: Colors.blue,
+    );
   }
 }
 
