@@ -6,6 +6,8 @@ import 'widgets/error_indicator.dart';
 import 'widgets/loading_indicator.dart';
 import 'widgets/movies_list.dart';
 
+import 'package:share/share.dart';
+
 class MovieDetailsPage extends StatelessWidget {
   final Movie movie;
 
@@ -57,7 +59,8 @@ class MovieDetailsPage extends StatelessWidget {
   }
 
   _shareMovie() {
-    // TODO: Task 7
+    Share.share("Paziurekite sita filma! ${movie.webUrl}");
+    print("something");
   }
 }
 
